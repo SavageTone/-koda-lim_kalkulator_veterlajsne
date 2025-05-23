@@ -1,0 +1,124 @@
+/* calculator_veterlajsna_responsive.css */
+
+/* Global reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  background: #f4f6f9;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+/* Form container */
+#vet-calculator {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(200,16,46,0.1);
+  padding: 30px 20px;
+  width: 100%;
+  max-width: 380px;
+  margin: auto;
+}
+
+#vet-calculator h2 {
+  text-align: center;
+  color: #C8102E;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+/* Form rows */
+#vet-calculator .field {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#vet-calculator label {
+  font-size: 1rem;
+  color: #223046;
+}
+
+#vet-calculator select,
+#vet-calculator input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #c9d0da;
+  border-radius: 6px;
+  background: #f8fafc;
+  transition: border .2s;
+}
+
+#vet-calculator select:focus,
+#vet-calculator input[type="number"]:focus {
+  border-color: #C8102E;
+  background: #fff;
+}
+
+#vet-calculator input[type="checkbox"] {
+  width: auto;
+  height: auto;
+  accent-color: #C8102E;
+  margin-right: 8px;
+}
+
+/* Results */
+#vet-calculator #rsValue,
+#vet-calculator #result {
+  font-weight: bold;
+  color: #C8102E;
+  margin-top: 8px;
+  font-size: 1rem;
+}
+
+/* Button */
+#vet-calculator button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  background: #C8102E;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+
+#vet-calculator button:hover {
+  background: #a10c21;
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  html, body {
+    padding: 10px;
+  }
+  #vet-calculator {
+    padding: 20px 16px;
+  }
+  #vet-calculator h2 {
+    font-size: 1.3rem;
+  }
+  #vet-calculator select,
+  #vet-calculator input[type="number"] {
+    padding: 8px;
+    font-size: 0.95rem;
+  }
+  #vet-calculator button {
+    padding: 10px;
+    font-size: 1rem;
+  }
+}
