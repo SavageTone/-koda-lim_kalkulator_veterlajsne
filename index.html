@@ -5,72 +5,103 @@
   <title>Kalkulator veterlajsne</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
+    /* Global reset */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%; height: 100%;
       background: #f4f6f9;
-      display: flex;
-      justify-content: center;
-      padding: 40px 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex; justify-content: center;
+      padding: 20px;
     }
+    /* Form container */
     #vet-calculator {
       background: #fff;
-      padding: 30px 26px;
       border-radius: 16px;
-      width: 380px;
       box-shadow: 0 4px 24px rgba(200,16,46,0.1);
+      padding: 30px 20px;
+      width: 100%; max-width: 380px;
     }
     #vet-calculator h2 {
       text-align: center;
       color: #C8102E;
       margin-bottom: 20px;
+      font-size: 1.5rem;
     }
-    #vet-calculator div {
-      margin-bottom: 14px;
+    /* Form rows */
+    #vet-calculator .field {
+      margin-bottom: 16px;
       display: flex;
       flex-direction: column;
+      gap: 6px;
     }
-    label {
+    #vet-calculator label {
       font-size: 1rem;
-      margin-bottom: 4px;
       color: #223046;
     }
-    input[type="number"], select {
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid #c9d0da;
-      background: #f8fafc;
+    #vet-calculator select,
+    #vet-calculator input[type="number"] {
+      width: 100%;
+      padding: 10px;
       font-size: 1rem;
+      border: 1px solid #c9d0da;
+      border-radius: 6px;
+      background: #f8fafc;
+      transition: border .2s;
     }
-    input[type="checkbox"] {
-      margin-right: 6px;
+    #vet-calculator select:focus,
+    #vet-calculator input[type="number"]:focus {
+      border-color: #C8102E;
+      background: #fff;
     }
-    #result, #rsValue {
+    #vet-calculator input[type="checkbox"] {
+      width: auto; height: auto;
+      accent-color: #C8102E;
+      margin-right: 8px;
+    }
+    /* Results */
+    #vet-calculator #rsValue,
+    #vet-calculator #result {
       font-weight: bold;
       color: #C8102E;
-      margin-top: 6px;
+      margin-top: 8px;
+      font-size: 1rem;
     }
-    button {
-      margin-top: 16px;
-      padding: 10px;
-      width: 100%;
-      background: #C8102E;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 1.1rem;
+    /* Button */
+    #vet-calculator button {
+      margin-top: 20px;
+      width: 100%; padding: 12px;
+      font-size: 1.1rem; font-weight: 600;
+      color: #fff; background: #C8102E;
+      border: none; border-radius: 8px;
       cursor: pointer;
-      font-weight: 600;
+      transition: background .2s, transform .2s;
     }
-    button:hover {
+    #vet-calculator button:hover {
       background: #a10c21;
+      transform: translateY(-2px);
+    }
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      html, body { padding: 10px; }
+      #vet-calculator {
+        padding: 20px 16px;
+      }
+      #vet-calculator h2 { font-size: 1.3rem; }
+      #vet-calculator select,
+      #vet-calculator input[type="number"] {
+        padding: 8px; font-size: 0.95rem;
+      }
+      #vet-calculator button {
+        padding: 10px; font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
   <form id="vet-calculator" onsubmit="return false;">
-    <h2>Veterlajsna – Izračun</h2>
-
-    <div>
+    <h2>Veterlajsna kalkulator cijene</h2>
+    <div class="field">
       <label for="preset">Standardne mjere:</label>
       <select id="preset">
         <option value="">-- Odaberi --</option>
@@ -79,31 +110,24 @@
         <option data-a="6" data-b="7" data-c="5">Velika (A=6, B=7, C=5 cm)</option>
       </select>
     </div>
-
-    <!-- SKRIVENI UNOSI A, B, C -->
     <input type="number" id="A" step="0.1" min="0" style="display:none;">
     <input type="number" id="B" step="0.1" min="0" style="display:none;">
     <input type="number" id="C" step="0.1" min="0" style="display:none;">
-
-    <div>
+    <div class="field">
       <label for="length">Duljina veterlajsne (m):</label>
       <input type="number" id="length" step="0.1" min="0" required>
     </div>
-
-    <div>
-      <label><input type="checkbox" id="addMatte"> + Mat boja (+0,50 €/m²)</label>
+    <div class="field" style="flex-direction:row; align-items:center;">
+      <input type="checkbox" id="addMatte">
+      <label for="addMatte">+ Mat boja (+0,50 €/m²)</label>
     </div>
-
     <div id="rsValue">r.š. = 0,0 cm</div>
     <div id="result">Ukupna cijena: 0,00 €</div>
-
-    <button onclick="izracunaj()">Izračunaj</button>
+    <button type="button" onclick="izracunaj()">Izračunaj</button>
   </form>
-
   <script>
-    const cijenaPoM2 = 12; // osnovna cijena u €/m2
-
-    document.getElementById('preset').addEventListener('change', function () {
+    const cijenaPoM2 = 12;
+    document.getElementById('preset').addEventListener('change', function() {
       const opt = this.selectedOptions[0];
       if (opt.dataset.a) {
         document.getElementById('A').value = opt.dataset.a;
@@ -111,19 +135,15 @@
         document.getElementById('C').value = opt.dataset.c;
       }
     });
-
     function izracunaj() {
       const A = parseFloat(document.getElementById('A').value) || 0;
       const B = parseFloat(document.getElementById('B').value) || 0;
       const C = parseFloat(document.getElementById('C').value) || 0;
       const duljina = parseFloat(document.getElementById('length').value) || 0;
       const matte = document.getElementById('addMatte').checked ? 0.50 : 0;
-
       const rs_cm = 1.5 + A + B + B + C + 2;
       const rs_m = rs_cm / 100;
-
       const ukupno = rs_m * duljina * (cijenaPoM2 + matte);
-
       document.getElementById('rsValue').textContent = `r.š. = ${rs_cm.toFixed(1)} cm`;
       document.getElementById('result').textContent = `Ukupna cijena: ${ukupno.toFixed(2)} €`;
     }
